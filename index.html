@@ -1,17 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+
 <head>
-    <link href="css/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nao Tsukamoto</title>
+
+    <!-- Typography: Inter for Latin, Noto Sans JP for Japanese -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
     <div class="container">
-        <div class="desicription">
-            <p>naotsukamoto.me</p>
-            <p>this is nao tsukamoto's portfolio</p>
+
+        <!-- 上部バー：状態と操作 -->
+        <div class="top-bar">
+            <div class="status-badge">
+                <span class="status-dot" id="statusDot"></span>
+                <span>オンライン</span>
+            </div>
+
+            <div class="top-controls">
+                <!-- ダーク・ライト切り替え -->
+                <button class="btn-toggle" id="themeBtn" onclick="toggleTheme()" title="表示テーマ切り替え">
+                    <span id="themeLabel">DARK</span>
+                </button>
+
+                <!-- 差し色カラーピッカー（お好みで選べます） -->
+                <div class="color-picker" title="ポイントカラーの変更">
+                    <button class="color-swatch active" style="background:#0038ff;" onclick="setColor('#0038ff', this)"
+                        title="ブルー"></button>
+                    <button class="color-swatch" style="background:#ff381e;" onclick="setColor('#ff381e', this)"
+                        title="レッド"></button>
+                    <button class="color-swatch" style="background:#00a352;" onclick="setColor('#00a352', this)"
+                        title="グリーン"></button>
+                    <button class="color-swatch" style="background:#f59e0b;" onclick="setColor('#f59e0b', this)"
+                        title="オレンジ"></button>
+                </div>
+            </div>
         </div>
-        <div>
-            ※ポートフォリオ
-        </div>
+
+        <!-- プロフィール（顔アイコン、名前と簡単な紹介） -->
+        <header class="profile">
+            <div class="profile-wrap">
+                <!-- アイコン画像 -->
+                <div class="avatar-wrap">
+                    <img src="pic/avatar.png" alt="Nao Tsukamoto" class="avatar-img">
+                </div>
+
+                <div class="profile-info">
+                    <h1 class="author-name">Nao Tsukamoto</h1>
+                    <p class="author-tagline">
+                        開発、読書、走ること。日々の記録と作ったものを置いています。
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 今年の目標 -->
+        <section class="goal-card" aria-label="今年の目標">
+            <div class="goal-header">
+                <span class="goal-badge">2026 GOAL</span>
+                <span class="goal-title">今年の目標</span>
+            </div>
+            <div class="goal-content">
+                フルマラソンでサブ3（3時間切り）
+            </div>
+        </section>
+
+        <!-- リンク集 -->
+        <section>
+            <h2 class="section-title">Links</h2>
+            <div class="links-list">
+
+                <!-- 1. X (旧Twitter) -->
+                <a href="https://x.com/nao_tsukamoto" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <div class="link-icon" aria-hidden="true">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="link-text-title">X</div>
+                            <div class="link-text-desc">日々の短い気づきやつぶやき</div>
+                        </div>
+                    </div>
+                    <span class="link-arrow">↗</span>
+                </a>
+
+                <!-- 2. note -->
+                <a href="https://note.com/naotarooou" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <div class="link-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18.8 3H5.2C4 3 3 4 3 5.2v13.6C3 20 4 21 5.2 21h13.6c1.2 0 2.2-1 2.2-2.2V5.2C21 4 20 3 18.8 3zm-4.7 13.8h-2.2v-5.6c0-1.1-.5-1.7-1.5-1.7-1 0-1.7.7-1.7 1.8v5.5H6.5V8.8h2.1v1.1c.6-.8 1.6-1.3 2.7-1.3 1.9 0 2.8 1.2 2.8 3.2v5z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="link-text-title">note</div>
+                            <div class="link-text-desc">思考のログとまとまった文章</div>
+                        </div>
+                    </div>
+                    <span class="link-arrow">↗</span>
+                </a>
+
+                <!-- 3. ブクログ (Booklog) -->
+                <a href="https://booklog.jp/users/naotarooou/profile" class="link-card" target="_blank"
+                    rel="noopener noreferrer">
+                    <div class="link-left">
+                        <div class="link-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                                <path d="M6 6h10"></path>
+                                <path d="M6 10h10"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="link-text-title">ブクログ</div>
+                            <div class="link-text-desc">読んだ本とおすすめの本棚</div>
+                        </div>
+                    </div>
+                    <span class="link-arrow">↗</span>
+                </a>
+
+                <!-- 4. Strava -->
+                <a href="https://www.strava.com/athletes/649909256" class="link-card" target="_blank"
+                    rel="noopener noreferrer">
+                    <div class="link-left">
+                        <div class="link-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 3l5 10h-4l-3-6-3 6H4l9-10z"></path>
+                                <path d="M13 13l3 6h-3l-2-4-2 4h-3l5-6z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="link-text-title">Strava</div>
+                            <div class="link-text-desc">ランニングと練習の走行ログ</div>
+                        </div>
+                    </div>
+                    <span class="link-arrow">↗</span>
+                </a>
+
+                <!-- 5. GitHub -->
+                <a href="https://github.com/naotsukamoto/" class="link-card" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <div class="link-icon" aria-hidden="true">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4">
+                                </path>
+                                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="link-text-title">GitHub</div>
+                            <div class="link-text-desc">ソースコードと作ったツール</div>
+                        </div>
+                    </div>
+                    <span class="link-arrow">↗</span>
+                </a>
+
+            </div>
+
+            <!-- その他リンク（アイコンだけで並べるトレイ） -->
+            <div class="other-links-wrap">
+                <span class="other-links-heading">Others</span>
+                <div class="other-icons-row">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/nao.tsukamoto.nao" class="icon-bubble" target="_blank"
+                        rel="noopener noreferrer" title="Facebook" aria-label="Facebook">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <!-- 今後リンクを追加したい時は、ここへ同様の a タグを配置するだけでOKです -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 制作物リンク集 -->
+        <section class="works-section">
+            <h2 class="section-title">Works</h2>
+
+            <!-- 制作物カード（ここを複製して作品を追加できます） -->
+            <a href="https://contacts-app-bb4dd.web.app/" class="project-card" target="_blank"
+                rel="noopener noreferrer">
+                <div class="project-thumb-wrap">
+                    <!-- 代表画像（お好きな画像のURLに差し替え可能） -->
+                    <img src="pic/concon.png" alt="コンタクト管理アプリ「ConCon」" class="project-thumb"
+                        onerror="this.src='https://placehold.co/800x450/e9e8e3/494a50?text=Work+Preview'">
+                </div>
+                <div class="project-body">
+                    <div class="project-meta-row">
+                        <span class="project-tag">Web Application</span>
+                        <span class="project-url-label">Visit ↗</span>
+                    </div>
+                    <h3 class="project-title">コンタクト管理アプリ「ConCon」</h3>
+                    <p class="project-desc">
+                        シンプルで使いやすいコンタクト管理アプリ。左右別々の管理、交換日のリマインドまで対応。
+                    </p>
+                </div>
+            </a>
+        </section>
+
+        <!-- フッター -->
+        <footer>
+            <span class="footer-copy">© 2026 Nao Tsukamoto</span>
+            <span class="footer-city">Fukuoka, Japan</span>
+        </footer>
+
     </div>
-    <div class="fonnter">
-        <p>© naotsukamoto.me 2020</p>
-    </div>
+
+    <script src="js/main.js"></script>
 </body>
+
+</html>
