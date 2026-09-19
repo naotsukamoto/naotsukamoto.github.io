@@ -35,4 +35,47 @@
                     document.getElementById('themeLabel').textContent = 'LIGHT';
                 }
             } catch (e) { }
+
+            loadActivitySignal();
         });
+
+        function formatDistance(value, maximumFractionDigits = 1) {
+            const number = Number(value);
+            if (!Number.isFinite(number)) return '—';
+            return new Intl.NumberFormat('ja-JP', { maximumFractionDigits }).format(number);
+        }
+
+        function setText(id, value) {
+            const element = document.getElementById(id);
+            if (element) element.textContent = value;
+        }
+
+        function renderActivitySignal(data) {
+            const running = data?.running;
+
+            if (running) {
+                setText('runWeek', formatDistance(running.weekKm));
+                setText('runMonth', formatDistance(running.monthKm, 0));
+                setText('runYear', formatDistance(running.yearKm, 0));
+                setText('runCount', `${running.monthRunCount ?? '—'} runs this month`);
+                setText('runningUpdated', running.updatedLabel || 'Updated today');
+                setText('runComparison', running.comparisonLabel || '');
+
+                const target = Number(running.weekTargetKm);
+                const current = Number(running.weekKm);
+                const progress = target > 0 ? Math.min((current / target) * 100, 100) : 0;
+                const progressBar = document.getElementById('runWeekProgress');
+                if (progressBar) progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        async function loadActivitySignal() {
+            try {
+                const response = await fetch('data/activity.json', { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`Activity data: ${response.status}`);
+                renderActivitySignal(await response.json());
+            } catch (error) {
+                setText('runningUpdated', 'Sync unavailable');
+                console.warn('Activity Signal could not be loaded.', error);
+            }
+        }

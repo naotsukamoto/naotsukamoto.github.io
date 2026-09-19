@@ -541,3 +541,181 @@
                 padding: 12px 14px;
             }
         }
+
+        /* Activity Signal — final design */
+        .activity-signal {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .signal-card {
+            overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .signal-heading {
+            min-height: 42px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .signal-service {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .signal-service h2 {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .signal-service-mark {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
+            display: grid;
+            place-items: center;
+            border-radius: 3px;
+            background: var(--text-main);
+            color: var(--card-bg);
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-weight: 500;
+        }
+
+        .signal-updated,
+        .signal-footnote {
+            color: var(--text-light);
+            font-family: var(--font-mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .signal-updated {
+            color: var(--accent-color);
+        }
+
+        .running-stats {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr 1fr;
+            padding: 18px 14px 16px;
+        }
+
+        .running-stat {
+            min-width: 0;
+            padding-left: 13px;
+            border-left: 1px solid var(--border);
+        }
+
+        .running-stat:first-child {
+            padding-left: 0;
+            border-left: 0;
+        }
+
+        .running-stat-label {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--text-light);
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.035em;
+            text-transform: uppercase;
+        }
+
+        .running-stat-value {
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .running-stat-value strong {
+            font-family: var(--font-mono);
+            font-size: 1.35rem;
+            font-weight: 400;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.065em;
+        }
+
+        .running-stat-primary .running-stat-value strong {
+            font-size: 2.35rem;
+        }
+
+        .running-stat-value small {
+            margin-left: 4px;
+            color: var(--text-light);
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+        }
+
+        .running-progress {
+            width: 100%;
+            height: 2px;
+            margin-top: 12px;
+            overflow: hidden;
+            background: var(--border);
+        }
+
+        .running-progress i {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.35s ease;
+        }
+
+        .signal-footnote {
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .activity-signal + .goal-card {
+            margin-top: 0;
+        }
+
+        @media (max-width: 420px) {
+            .running-stats {
+                grid-template-columns: 1.3fr 1fr 1fr;
+            }
+
+            .running-stat {
+                padding-left: 10px;
+            }
+
+            .running-stat-primary .running-stat-value strong {
+                font-size: 2rem;
+            }
+
+            .running-stat-value strong {
+                font-size: 1.08rem;
+            }
+
+            .signal-updated {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .running-progress i {
+                transition: none;
+            }
+        }
