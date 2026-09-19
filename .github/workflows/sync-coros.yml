@@ -1,0 +1,60 @@
+name: Sync COROS running signal
+
+on:
+  schedule:
+    # 03:00 JST (18:00 UTC on the previous day)
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-coros-running-signal
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Decrypt COROS OAuth token
+        env:
+          COROS_TOKEN_KEY: ${{ secrets.COROS_TOKEN_KEY }}
+        run: node scripts/coros-token.mjs decrypt .github/coros-token.enc "$RUNNER_TEMP/coros-token.json"
+
+      - name: Refresh running totals
+        id: sync
+        continue-on-error: true
+        env:
+          COROS_TOKEN_PATH: ${{ runner.temp }}/coros-token.json
+        run: node scripts/sync-coros.mjs
+
+      - name: Preserve refreshed OAuth token
+        if: always()
+        env:
+          COROS_TOKEN_KEY: ${{ secrets.COROS_TOKEN_KEY }}
+        run: node scripts/coros-token.mjs encrypt "$RUNNER_TEMP/coros-token.json" .github/coros-token.enc
+
+      - name: Verify public files
+        if: steps.sync.outcome == 'success'
+        run: node scripts/verify-site.mjs
+
+      - name: Commit refreshed data and encrypted token
+        if: always()
+        run: |
+          git add data/activity.json .github/coros-token.enc
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update COROS running signal"
+          git push
+
+      - name: Report sync failure
+        if: steps.sync.outcome != 'success'
+        run: exit 1
