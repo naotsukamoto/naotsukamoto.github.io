@@ -3,7 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nao Tsukamoto</title>
+    <title>Nao Tsukamoto | Product Manager</title>
+    <meta
+      name="description"
+      content="Product Manager（プロダクトマネージャー）として働くNao Tsukamotoの個人サイト。ランニング、読書、個人開発の記録と、コンタクトレンズ管理アプリ「ConCon」などの制作物、各サービスのプロフィールをまとめています。"
+    />
+    <link rel="canonical" href="https://naotsukamoto.com/" />
+
+    <!-- SNSで共有したときの表示 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="Nao Tsukamoto" />
+    <meta property="og:title" content="Nao Tsukamoto | Product Manager" />
+    <meta
+      property="og:description"
+      content="Product Managerとして働くNao Tsukamotoの個人サイト。ランニング、読書、個人開発の日々の記録と、コンタクトレンズ管理アプリ「ConCon」などの制作物をまとめています。"
+    />
+    <meta property="og:url" content="https://naotsukamoto.com/" />
+    <meta property="og:image" content="https://naotsukamoto.com/pic/avatar.png" />
+    <meta property="og:image:alt" content="Nao Tsukamotoのプロフィール画像" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Nao Tsukamoto | Product Manager" />
+    <meta
+      name="twitter:description"
+      content="Product Managerとして働くNao Tsukamotoの個人サイト。ランニング、読書、個人開発の日々の記録と、コンタクトレンズ管理アプリ「ConCon」などの制作物をまとめています。"
+    />
+    <meta name="twitter:image" content="https://naotsukamoto.com/pic/avatar.png" />
+    <meta name="twitter:image:alt" content="Nao Tsukamotoのプロフィール画像" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://naotsukamoto.com/#person",
+            "name": "Nao Tsukamoto",
+            "url": "https://naotsukamoto.com/",
+            "image": "https://naotsukamoto.com/pic/avatar.png",
+            "jobTitle": "Product Manager",
+            "sameAs": [
+              "https://x.com/nao_tsukamoto",
+              "https://note.com/naotarooou",
+              "https://booklog.jp/users/naotarooou/profile",
+              "https://www.strava.com/athletes/649909256",
+              "https://github.com/naotsukamoto/",
+              "https://www.facebook.com/nao.tsukamoto.nao"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://naotsukamoto.com/#website",
+            "url": "https://naotsukamoto.com/",
+            "name": "Nao Tsukamoto",
+            "inLanguage": "ja",
+            "publisher": { "@id": "https://naotsukamoto.com/#person" }
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://naotsukamoto.com/#profile",
+            "url": "https://naotsukamoto.com/",
+            "name": "Nao Tsukamoto | Product Manager",
+            "inLanguage": "ja",
+            "isPartOf": { "@id": "https://naotsukamoto.com/#website" },
+            "mainEntity": { "@id": "https://naotsukamoto.com/#person" }
+          }
+        ]
+      }
+    </script>
 
     <!-- Typography: Inter for Latin, Noto Sans JP for Japanese -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -76,9 +143,11 @@
 
           <div class="profile-info">
             <h1 class="author-name">Nao Tsukamoto</h1>
-            <!-- <p class="author-tagline">
-                        Running(Full Marathoner), Programming, Reading books, and more..
-                    </p> -->
+            <p class="author-tagline">
+              Product Manager<br />
+              走って、読んで、ときどきつくる。<br />
+              日々の途中で、残しておきたいものを少しずつ。
+            </p>
           </div>
         </div>
       </header>
@@ -343,8 +412,8 @@
           <div class="project-thumb-wrap">
             <!-- 代表画像（お好きな画像のURLに差し替え可能） -->
             <img
-              src="pic/concon.png"
-              alt="コンタクト管理アプリ「ConCon」"
+              src="pic/concon-minimal.png"
+              alt="コンタクトレンズ管理アプリ「ConCon」"
               class="project-thumb"
               onerror="this.src='https://placehold.co/800x450/e9e8e3/494a50?text=Work+Preview'"
             />
@@ -354,9 +423,10 @@
               <span class="project-tag">Web Application</span>
               <span class="project-url-label">Visit ↗</span>
             </div>
-            <h3 class="project-title">コンタクト管理アプリ「ConCon」</h3>
+            <h3 class="project-title">コンタクトレンズ管理アプリ「ConCon」</h3>
             <p class="project-desc">
-              シンプルで使いやすいコンタクト管理アプリ。左右別々の管理、交換日のリマインドまで対応。
+              「このレンズ、いつ替えたっけ？」を減らすために。<br />
+              コンタクトレンズの交換日を左右別々に管理し、リマインドで交換忘れを防ぐWebアプリです。
             </p>
           </div>
         </a>
