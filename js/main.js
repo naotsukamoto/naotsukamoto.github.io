@@ -70,12 +70,34 @@
         }
 
         async function loadActivitySignal() {
-            try {
-                const response = await fetch('data/activity.json', { cache: 'no-cache' });
-                if (!response.ok) throw new Error(`Activity data: ${response.status}`);
-                renderActivitySignal(await response.json());
-            } catch (error) {
-                setText('runningUpdated', 'Sync unavailable');
-                console.warn('Activity Signal could not be loaded.', error);
+            const sources = [
+                'https://raw.githubusercontent.com/naotsukamoto/naotsukamoto.github.io/coros-data/data/activity.json',
+                'data/activity.json'
+            ];
+            for (const source of sources) {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 5000);
+                try {
+                    const response = await fetch(source, {
+                        cache: 'no-cache',
+                        signal: controller.signal
+                    });
+                    if (!response.ok) throw new Error(`Activity data: ${response.status}`);
+                    const data = await response.json();
+                    if (!data?.running || !['weekKm', 'monthKm', 'yearKm', 'monthRunCount']
+                        .every(key => typeof data.running[key] === 'number' && Number.isFinite(data.running[key]))) {
+                        throw new Error('Invalid activity data');
+                    }
+                    renderActivitySignal(data);
+                    if (source === 'data/activity.json') {
+                        setText('runningUpdated', '保存済みの記録');
+                    }
+                    return;
+                } catch (error) {
+                    console.warn('Activity Signal source could not be loaded.', error);
+                } finally {
+                    clearTimeout(timeout);
+                }
             }
+            setText('runningUpdated', 'Sync unavailable');
         }

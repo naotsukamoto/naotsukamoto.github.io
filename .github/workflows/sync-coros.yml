@@ -11,17 +11,41 @@ permissions:
 
 concurrency:
   group: sync-coros-running-signal
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   sync:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: master
+
+      - name: Load COROS state from dedicated branch
+        run: |
+          state_dir="$RUNNER_TEMP/coros-state"
+          if git ls-remote --exit-code --heads origin coros-data > /dev/null; then
+            git fetch origin coros-data
+            git worktree add --detach "$state_dir" FETCH_HEAD
+            cp "$state_dir/.github/coros-token.enc" .github/coros-token.enc
+            cp "$state_dir/data/activity.json" data/activity.json
+          else
+            status=$?
+            if [ "$status" -ne 2 ]; then
+              exit "$status"
+            fi
+            git worktree add --detach "$state_dir" HEAD
+            git -C "$state_dir" switch --orphan coros-data
+            mkdir -p "$state_dir/.github" "$state_dir/data"
+            cp .github/coros-token.enc "$state_dir/.github/coros-token.enc"
+            cp data/activity.json "$state_dir/data/activity.json"
+          fi
 
       - name: Decrypt COROS OAuth token
+        id: decrypt
         env:
           COROS_TOKEN_KEY: ${{ secrets.COROS_TOKEN_KEY }}
         run: node scripts/coros-token.mjs decrypt .github/coros-token.enc "$RUNNER_TEMP/coros-token.json"
@@ -34,18 +58,28 @@ jobs:
         run: node scripts/sync-coros.mjs
 
       - name: Preserve refreshed OAuth token
-        if: always()
+        id: encrypt
+        if: always() && steps.decrypt.outcome == 'success'
         env:
           COROS_TOKEN_KEY: ${{ secrets.COROS_TOKEN_KEY }}
         run: node scripts/coros-token.mjs encrypt "$RUNNER_TEMP/coros-token.json" .github/coros-token.enc
 
       - name: Verify public files
+        id: verify
         if: steps.sync.outcome == 'success'
         run: node scripts/verify-site.mjs
 
       - name: Commit refreshed data and encrypted token
-        if: always()
+        if: always() && steps.encrypt.outcome == 'success'
+        env:
+          VERIFIED: ${{ steps.verify.outcome == 'success' }}
         run: |
+          state_dir="$RUNNER_TEMP/coros-state"
+          cp .github/coros-token.enc "$state_dir/.github/coros-token.enc"
+          if [ "$VERIFIED" = "true" ]; then
+            cp data/activity.json "$state_dir/data/activity.json"
+          fi
+          cd "$state_dir"
           git add data/activity.json .github/coros-token.enc
           if git diff --cached --quiet; then
             exit 0
@@ -53,7 +87,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Update COROS running signal"
-          git push
+          git push origin HEAD:refs/heads/coros-data
 
       - name: Report sync failure
         if: steps.sync.outcome != 'success'
