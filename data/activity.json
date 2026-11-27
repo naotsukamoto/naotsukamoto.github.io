@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-26T01:24:33.320Z",
+  "updatedAt": "2026-11-27T01:22:37.270Z",
   "running": {
     "weekKm": 7.53,
     "monthKm": 126.66,
     "yearKm": 1747.42,
     "monthRunCount": 20,
     "weekTargetKm": 70,
-    "updatedLabel": "Updated Nov 26",
-    "comparisonLabel": "-35% vs Oct 1–26"
+    "updatedLabel": "Updated Nov 27",
+    "comparisonLabel": "-38% vs Oct 1–27"
   }
 }
